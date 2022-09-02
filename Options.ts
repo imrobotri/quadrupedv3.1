@@ -123,3 +123,91 @@ enum Unit {
     //% block="inches"
     Inches
 }
+
+/* ************************************图像识别******************************** */
+//开启颜色和标签
+enum EnabledID {
+    ////% block="color label"
+    Color = 1,
+    //% block="Tag label"
+    Tag = 5,
+}
+
+
+//识别小球和形状
+enum EnabledID1 {
+    //% block="Seek ball"
+    Ball = 2,
+    //% block="Shape inspection"
+    Shape = 4,
+}
+
+//开启黑色/红色识别功能
+enum LineColorchoose {
+    //% block="Black"
+    Black = 1,
+    //% block="Red"
+    Red = 2,
+}
+
+
+//颜色ID
+enum Colorchoose {
+    //% block="Red"
+    Red = 1,
+    //% block="Blue"
+    Blue = 2,
+    //% block="Yellow"
+    Yellow = 3,
+    //% block="Green"
+    Green = 4,
+}
+
+
+//Ball position||球的位置值
+enum Ball_Position {
+    //% block="status"
+    Status,
+    //% block="X axis"
+    X_axis,
+    //% block="Y axis"
+    Y_axis,
+    //% block="Width "
+    Width,
+    //% block="Depth "
+    Depth,
+    //% block="Recognition effect"
+    Re_effect
+}
+
+//Line inspection||巡线
+enum Line_Position {
+    //% block="status"
+    Status,
+    //% block="Recognition_effect"
+    Re_effect,
+    //% block="Deviation_angle"
+    De_angle,
+    //% block="Deviation_position"
+    De_position
+}
+
+//Tag Position value||标签位置值
+enum Tag_Position {
+    //% block="Content V"
+    Content_V,
+    //% block="X axis"
+    X_axis,
+    //% block="Y axis"
+    Y_axis,
+    //% block="Z axis"
+    Z_axis,
+    //% block="X axis flip"
+    X_flip,
+    //% block="Y axis flip"
+    Y_flip,
+    //% block="Z axis flip"
+    Z_flip,
+}
+
+
