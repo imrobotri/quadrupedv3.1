@@ -439,3 +439,94 @@ function GestureSelectBank(bank: number): void {
     }
 
 }
+
+/* ************************************图像识别******************************** */
+let num = 0
+let Header = 0xaa //包头DaHeader
+let Tail = 0xAB //包尾DaTail
+let Color_id = 0 //基础颜色位置
+let Linecolor_id = 0 //线颜色位置
+let Find_ID = 0 //接收功能ID
+let Function_ID = 0 //发送功能ID
+let Identity_RX = pins.createBuffer(22)  //接收的缓冲区 Identify_RX
+let Select_Tx = pins.createBuffer(5)  //开启功能选择：包头，功能，基础颜色位置，线颜色，包尾 //
+
+
+//mall ball  //bal->ball
+let Ball_status = 0x00  //status
+let Ball_X = 0x00, Ball_Y = 0x00 //x-axis, y-axis
+let Ball_W = 0x00, Ball_H = 0x00 //Width Height
+let Ball_pixels = 0x00  //Number of pixels
+
+//Line inspection  //lin->line
+let Line_detect = 0x00 //Detect
+let Line_effect = 0x00 //The effect of the identification line
+let Line_angle = 0x00 //angle
+let Line_position = 0x00 //position
+
+let Shape_ID = 0 //Shapes_ID
+
+//QR code
+let Identity_x = 0x00, Identity_y = 0x00, Identity_z = 0x00
+let Identity_Flip_x = 0x00, Identity_Flip_y = 0x00, Identity_Flip_z = 0x00
+let Identity_status = 0x00, Identity_pattern = 0x00
+
+
+//功能和颜色选择发送
+function Uart_sent() { //IRecognitionSetting
+    num = 0
+    Select_Tx[0] = Header
+    Select_Tx[1] = Function_ID //功能
+    Select_Tx[2] = Color_id //基础颜色
+    Select_Tx[3] = Linecolor_id //线颜色
+    Select_Tx[4] = Tail
+    serial.writeBuffer(Select_Tx)
+    basic.pause(100)
+}
+
+
+// 功能切换     数组清空赋0
+function Reset() { //IRecognitionToggle
+    num = 0
+    Select_Tx[0] = Header
+    Select_Tx[1] = 0x00
+    Select_Tx[2] = 0x00
+    Select_Tx[3] = 0x00
+    Select_Tx[4] = Tail
+    serial.writeBuffer(Select_Tx)
+    //basic.pause(100)
+}
+
+//串口接收
+function Uart_receive() {
+    Identity_RX = serial.readBuffer(0)//若要避免等待数据，请将长度设置为立即返回缓冲数据:0
+    if (Identity_RX[0] == Header && Identity_RX[21] == Tail) {
+        Color_id = Identity_RX[1]
+
+        Ball_status = Identity_RX[2]
+        Ball_X = Identity_RX[3]
+        Ball_Y = Identity_RX[4]
+        Ball_W = Identity_RX[5]
+        Ball_H = Identity_RX[6]
+        Ball_pixels = Identity_RX[7]
+
+        Line_detect = Identity_RX[8]
+        Line_effect = Identity_RX[9]
+        Line_angle = Identity_RX[10]
+        Line_position = Identity_RX[11]
+
+        Shape_ID = Identity_RX[12]
+
+        Identity_status = Identity_RX[13]
+        Identity_pattern = Identity_RX[14]
+        Identity_x = Identity_RX[15]
+        Identity_y = Identity_RX[16]
+        Identity_z = Identity_RX[17]
+        Identity_Flip_x = Identity_RX[18]
+        Identity_Flip_y = Identity_RX[19]
+        Identity_Flip_z = Identity_RX[20]
+
+    }
+}
+
+
