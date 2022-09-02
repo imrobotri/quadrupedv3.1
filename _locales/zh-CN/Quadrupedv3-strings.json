@@ -55,7 +55,7 @@
     "gesture.backward|block": "从前往后",
     "gesture.clockwise|block": "顺时针",
     "gesture.count_clockwise|block": "逆时针",
-    "gesture.wave|block": "挥手"
+    "gesture.wave|block": "挥手",
     "Quadruped.Image_init|block": "图像识别初始化",
     "Quadruped.Togglet|block": "开启 |%Ena |识别",
     "Quadruped.Togglet1|block": "开启 |%Col| %Ena1 识别",
