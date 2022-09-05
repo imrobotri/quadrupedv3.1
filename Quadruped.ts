@@ -355,38 +355,38 @@ namespace Quadruped {
         }
 
     }
+//     
+//     //###Joint angle control||关节控制
+//     /**
+//     * TODO:The robot can choose the corresponding leg, joint angle, and whether to execute the command of the current block.
+//     * TODO:机器人可以选择对应的腿、关节角度以及是否执行当前积木的命令。
+//     */
+//     //% group="Joint angle control"
+//     //% blockGap=9
+//     //% blockId=Quadruped_Joint block="Joint angle control | %j|thigh %d|Calf %x|Side led %c| %site "
+//     export function Joint(j: Joints, d: number, x: number, c: number, site: sIte): void {
+//         switch (j) {
+//             case Joints.Left_fr: FL_d = d; FL_x = x; FL_c = c; break;
+//             case Joints.Left_hi: HL_d = d; HL_x = x; HL_c = c; break
+//             case Joints.Right_fr: FR_d = d; FR_x = x; FR_c = c; break
+//             case Joints.Right_hi: HR_d = d; HR_x = x; HR_c = c; break
+//         }
+//         if (site = 1)
+//             Joint_SPI_Send()
+//     }
 
-    //###Joint angle control||关节控制
-    /**
-    * TODO:The robot can choose the corresponding leg, joint angle, and whether to execute the command of the current block.
-    * TODO:机器人可以选择对应的腿、关节角度以及是否执行当前积木的命令。
-    */
-    //% group="Joint angle control"
-    //% blockGap=9
-    //% blockId=Quadruped_Joint block="Joint angle control | %j|thigh %d|Calf %x|Side led %c| %site "
-    export function Joint(j: Joints, d: number, x: number, c: number, site: sIte): void {
-        switch (j) {
-            case Joints.Left_fr: FL_d = d; FL_x = x; FL_c = c; break;
-            case Joints.Left_hi: HL_d = d; HL_x = x; HL_c = c; break
-            case Joints.Right_fr: FR_d = d; FR_x = x; FR_c = c; break
-            case Joints.Right_hi: HR_d = d; HR_x = x; HR_c = c; break
-        }
-        if (site = 1)
-            Joint_SPI_Send()
-    }
-
-    //###Joint Heartbeat||关节心跳
-    /**
-    * TODO:Constantly send the command information set up in the previous step to the robot to prevent the loss of machine communication.
-    * TODO:不断发送上一步设置的命令信息给机器人，防止机器通讯丢失。
-    */
-    //% group="Joint angle control"
-    //% blockGap=8
-    //% blockId=Joint_Heartbeat block="Joint Heartbeat"
-    export function Joint_Heartbeat(): void {
-        Joint_SPI_Send()
-    }
-
+//     //###Joint Heartbeat||关节心跳
+//     /**
+//     * TODO:Constantly send the command information set up in the previous step to the robot to prevent the loss of machine communication.
+//     * TODO:不断发送上一步设置的命令信息给机器人，防止机器通讯丢失。
+//     */
+//     //% group="Joint angle control"
+//     //% blockGap=8
+//     //% blockId=Joint_Heartbeat block="Joint Heartbeat"
+//     export function Joint_Heartbeat(): void {
+//         Joint_SPI_Send()
+//     }
+//     
 /* ***********************************************传感器***************************************** */
 
     //###Ultrasound||超声波
@@ -395,7 +395,7 @@ namespace Quadruped {
     * TODO:选择机器人超声波模块对应的发射和接收引脚，并选择返回数据的单位。
     */
     //% subcategory=sensor
-    //% blockGap=8
+    //% blockGap=19
     //% blockId=sensor_Model block="Ultrasound |tr %trig |re %echo | unit %unit"
     export function Ultrasound(trig: DigitalPin, echo: DigitalPin, unit: Unit, maxCmDistance = 500): number {
         // send pulse
@@ -420,7 +420,7 @@ namespace Quadruped {
      * TODO:机器人选择红外传感器的数据接收引脚，状态返回值0代表有障碍物，1代表未识别到障碍物。
      */
     //% subcategory=sensor
-    //% blockGap=8
+    //% blockGap=14
     //% blockId=sensor_Infrared block="Infrared |mode %value |pin %pin"
     export function Infrared(pin: DigitalPin): number {
         pins.setPull(pin, PinPullMode.PullUp);
@@ -432,7 +432,7 @@ namespace Quadruped {
     * TODO:机器人选择人体感应器的数据接收引脚，状态返回值0代表未识别到人体，1代表识别到人体。
     */
     //% subcategory=sensor
-    //% blockGap=8
+    //% blockGap=15
     //% blockId=sensor_Human_Infrared block="Human Infrared|pin|%pin"
     export function Human_induction(pin: AnalogPin, value = 50): number {
         let w = pins.analogReadPin(pin)
@@ -446,7 +446,7 @@ namespace Quadruped {
     * IODO:手势相关引脚、配置设置（成功：0 失败：255）
     */
     //% subcategory=sensor
-    //% blockGap=8
+    //% blockGap=16
     //% blockId=sensor_GestureInit block="GestureInit"
     export function GestureInit(): number {
         basic.pause(800);//等待芯片稳定
@@ -468,7 +468,7 @@ namespace Quadruped {
     * IODO:返回手势方向的值
     */
     //% subcategory=sensor
-    //% blockGap=8
+    //% blockGap=17
     //% blockId=sensor_GetGesture block="GetGesture"
     export function GetGesture(): number {
 
@@ -500,7 +500,7 @@ namespace Quadruped {
     * IODO:定义手势的方向并设置为一个值。
     */
     //% subcategory=sensor
-    //% blockGap=8
+    //% blockGap=18
     //% blockId=sensor_Select_gesture_as block="Select_gesture_as | %state"
     export function Select_gesture_as(state: gesture): number {
         return state;
@@ -540,7 +540,7 @@ namespace Quadruped {
     * IODO:图像识别功能的内部相关引脚和设置初始化
     */
     //% subcategory=sensor
-    //% blockGap=8
+    //% blockGap=1
     //% blockId=sensor_Image_in block="Image recognition "
     export function Image_init() {
         serial.setRxBufferSize(32)
@@ -553,7 +553,7 @@ namespace Quadruped {
      * IODO:开启设置图形的颜色或者标签识别功能。
      */
     //% subcategory=sensor
-    //% blockGap=8
+    //% blockGap=2
     //% blockId=Toggle block="Toggle|%Ena"
     export function Toggle(Ena: EnabledID): void {
         Function_ID = Ena
@@ -569,7 +569,7 @@ namespace Quadruped {
      * IODO:开启设置图形识别功能，可以选择小球和形状以及对应识别颜色。
      */
     //% subcategory=sensor
-    //% blockGap=8
+    //% blockGap=4
     //% blockId=Toggle1 block="Toggle1| %Col|%Ena1"
     export function Toggle1(Col: Colorchoose, Ena1: EnabledID1): void {
         Color_id = Col
@@ -584,7 +584,7 @@ namespace Quadruped {
      * IODO:开启设置图形识别功能，进行红色线或者黑色线的识别。
      */
     //% subcategory=sensor
-    //% blockGap=8
+    //% blockGap=3
     //% blockId=Toggle2 block="Toggle2| %Col|Line"
     export function Toggle2(Col: LineColorchoose): void {
         Function_ID = 0x03
@@ -600,7 +600,7 @@ namespace Quadruped {
      * IODO:开启设置图形识别功能，进行巡线及其颜色的识别，同时有形状及其颜色的识别。
      */
     //% subcategory=sensor
-    //% blockGap=8
+    //% blockGap=5
     //% blockId=Together block="Together| %Col1|Line|%Col2|Shape"
     export function Together(Col1: LineColorchoose, Col2: Colorchoose): void {
         Function_ID = 0x06
@@ -617,7 +617,7 @@ namespace Quadruped {
      * IODO:开启设置图形识别功能，同时进行巡线以及颜色识别。
      */
     //% subcategory=sensor
-    //% blockGap=8
+    //% blockGap=6
     //% blockId=Together1 block="Together1| %Col1|Line|and Color"
     export function Together1(Col1: LineColorchoose): void {
         Function_ID = 0x07
@@ -633,7 +633,7 @@ namespace Quadruped {
      * IODO:开启设置图形识别功能，同时进行巡线以及AprilTag标签识别。
      */
     //% subcategory=sensor
-    //% blockGap=8
+    //% blockGap=7
     //% blockId=Together2 block="Together2| %Col1|Line|and Tag"
     export function Together2(Col1: LineColorchoose): void {
         Function_ID = 0x08
@@ -665,7 +665,7 @@ namespace Quadruped {
     *
     */
     //% subcategory=sensor
-    //% blockGap=8
+    //% blockGap=9
     //% blockId=ColorRecogniti block="Color Recognition return value"
     export function Colorreturn(): number {
         Uart_receive()
@@ -681,7 +681,7 @@ namespace Quadruped {
     * IODO:返回小球的位置信息。识别状态1表示已识别，0表示未识别；图像中小球中心的X、Y轴位置；小球的XY二维宽高，以及识别效果（识别效果越高，小球的距离越近）。返回值类型：int。
     */
     //% subcategory=sensor
-    //% blockGap=8
+    //% blockGap=11
     //% blockId=sensor_Ball_return block="Ball return value| %P"
     export function Ball_return(P: Ball_Position): number {
         Uart_receive()
@@ -704,7 +704,7 @@ namespace Quadruped {
     * IODO:机器人巡线状态返回（0：未识别到线，1：识别到线）。识别效果：识别线像素值大小为0-19200，偏差角度范围（-90°~90°），偏差 X 轴位置 范围(- 160~160) 。
     */
     //% subcategory=sensor
-    //% blockGap=8
+    //% blockGap=12
     //% blockId=Line_return block="Line patrol return value| %X"
     export function Line_return(X: Line_Position): number {
         Uart_receive()
@@ -724,7 +724,7 @@ namespace Quadruped {
     * IODO:识别形状返回0~3数字（0：无、1：三角形、2：矩形、3：圆形）
     */
     //% subcategory=sensor
-    //% blockGap=8
+    //% blockGap=10
     //% blockId=Shape_return block="shape recognition return value"
     export function Shape_return(): number {
         Uart_receive()
@@ -737,7 +737,7 @@ namespace Quadruped {
     * IODO:返回Tag码集的位置值，翻转X、Y、Z轴对应位置及X、Y、Z轴的翻转角度。
     */
     //% subcategory=sensor
-    //% blockGap=8
+    //% blockGap=13
     //% blockId=Tag_return block="Tag code position return value| %data"
     export function Tag_return(data: Tag_Position): number {
         Uart_receive()
