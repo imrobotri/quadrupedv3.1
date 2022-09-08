@@ -485,22 +485,22 @@ function Uart_sent() { //IRecognitionSetting
 }
 
 
-// 功能切换     数组清空赋0
-function Reset() { //IRecognitionToggle
-    num = 0
-    Select_Tx[0] = Header
-    Select_Tx[1] = 0x00
-    Select_Tx[2] = 0x00
-    Select_Tx[3] = 0x00
-    Select_Tx[4] = Tail
-    serial.writeBuffer(Select_Tx)
-    //basic.pause(100)
-}
+// // 功能切换     数组清空赋0
+// function Reset() { //IRecognitionToggle
+//     num = 0
+//     Select_Tx[0] = Header
+//     Select_Tx[1] = 0x00
+//     Select_Tx[2] = 0x00
+//     Select_Tx[3] = 0x00
+//     Select_Tx[4] = Tail
+//     serial.writeBuffer(Select_Tx)
+//     //basic.pause(100)
+// }
 
 //串口接收
 function Uart_receive() {
     Identity_RX = serial.readBuffer(0)//若要避免等待数据，请将长度设置为立即返回缓冲数据:0
-    if (Identity_RX[0] == Header && Identity_RX[21] == Tail) {
+    if (Identity_RX[0] == Header && Identity_RX[32] == Tail) {
         Color_id = Identity_RX[1]
 
         Ball_status = Identity_RX[2]
@@ -508,23 +508,37 @@ function Uart_receive() {
         Ball_Y = Identity_RX[4]
         Ball_W = Identity_RX[5]
         Ball_H = Identity_RX[6]
-        Ball_pixels = Identity_RX[7]
+        Ball_pixels = Identity_RX[7] * 256 + Identity_RX[8]
 
-        Line_detect = Identity_RX[8]
-        Line_effect = Identity_RX[9]
-        Line_angle = Identity_RX[10]
-        Line_position = Identity_RX[11]
+        Line_detect = Identity_RX[9]
+        Line_effect = Identity_RX[10]
 
-        Shape_ID = Identity_RX[12]
+        if (Identity_RX[11] == 0xff){
+            Line_angle = -(Identity_RX[11] + 1 - Identity_RX[12])
+        } else { Line_angle = Identity_RX[12]}
 
-        Identity_status = Identity_RX[13]
-        Identity_pattern = Identity_RX[14]
-        Identity_x = Identity_RX[15]
-        Identity_y = Identity_RX[16]
-        Identity_z = Identity_RX[17]
-        Identity_Flip_x = Identity_RX[18]
-        Identity_Flip_y = Identity_RX[19]
-        Identity_Flip_z = Identity_RX[20]
+
+        if (Identity_RX[13] == 0xff) {
+            Line_position = -(Identity_RX[13] + 1 - Identity_RX[14])
+        } else { Line_position = Identity_RX[14] }
+
+        Shape_ID = Identity_RX[15]
+
+        Identity_status = Identity_RX[16]
+        Identity_pattern = Identity_RX[17]
+        if (Identity_RX[18] == 0xff) {
+            Identity_x = -((Identity_RX[18] - Identity_RX[19] + 1)*256 - Identity_RX[20])
+        } else { Identity_x = Identity_RX[19] * 256 + Identity_RX[20]}
+
+        Identity_y = Identity_RX[21] * 256 + Identity_RX[22]
+
+        if (Identity_RX[23] == 0xff) {
+            Identity_z = -((Identity_RX[23] - Identity_RX[24] + 1) * 256 - Identity_RX[25])
+        } else { Identity_z = Identity_RX[24] * 256 + Identity_RX[25] }
+
+        Identity_Flip_x = Identity_RX[26] * 256 + Identity_RX[27]
+        Identity_Flip_y = Identity_RX[28] * 256 + Identity_RX[29]
+        Identity_Flip_z = Identity_RX[30] * 256 + Identity_RX[31]
 
     }
 }
